@@ -17,15 +17,15 @@ class Prediction(BaseModel):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request, prediction: str = "when"):
+async def index(request: Request, prediction: str = ""):
     return templates.TemplateResponse(
         "index.html", {"request": request, "prediction": prediction}
     )
 
 
 @app.post("/predict")
-async def predict(request: Request, language: str = Form()):
-    preds = prediction_pipeline(language)
+async def predict(request: Request, prediction_text: str = Form()):
+    preds = prediction_pipeline(prediction_text)
     return templates.TemplateResponse(
         "index.html", {"request": request, "prediction": preds}
     )
