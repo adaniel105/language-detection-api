@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -17,18 +17,19 @@ class Prediction(BaseModel):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request, prediction: str = ""):
+async def index(request: Request, prediction: str = "when"):
     return templates.TemplateResponse(
         "index.html", {"request": request, "prediction": prediction}
     )
 
 
-"""
-@app.post("/predict", response_class=HTMLResponse)
-async def predict(language: str):
+@app.post("/predict")
+async def predict(request: Request, language: str = Form()):
     preds = prediction_pipeline(language)
-    return {"language": preds}
-"""
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "prediction": preds}
+    )
+
 
 if __name__ == "__main__":
     import uvicorn
