@@ -6,7 +6,11 @@ from pydantic import BaseModel
 from models.model import prediction_pipeline
 
 
-app = FastAPI()
+app = FastAPI(
+    title="LangDetect",
+    description="A Language Detection Webservice API",
+    version="1.0.0",
+)
 
 template_folder = Path(__file__).resolve(strict=True).parent / "templates"
 templates = Jinja2Templates(directory=str(template_folder))
@@ -29,9 +33,3 @@ async def predict(request: Request, prediction_text: str = Form()):
     return templates.TemplateResponse(
         "index.html", {"request": request, "prediction": preds}
     )
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="127.0.0.1", port=8080)
