@@ -1,4 +1,4 @@
-## Building a Language Detection App with FastAPI
+## Language Detection App with FastAPI
 A language detection deep learning model deployed with FastAPI.
 
 
